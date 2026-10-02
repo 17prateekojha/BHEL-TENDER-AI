@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.py[cod]
+.rag_index/
+.streamlit/secrets.toml
+.env
+.env.*
+!.env.example
+.vscode/
+debug.py
+sample_notes.md
+run_streamlit.ps1

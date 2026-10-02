@@ -1,0 +1,40 @@
+{
+  "name": "doc-rag-assistant",
+  "displayName": "Document RAG Assistant",
+  "description": "Ask questions answered only from your documents folder and fetch relevant code.",
+  "version": "0.1.0",
+  "publisher": "local",
+  "engines": { "vscode": "^1.90.0" },
+  "categories": ["Other"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "ragAssistant.ask", "title": "RAG: Ask Documents" },
+      { "command": "ragAssistant.insertCode", "title": "RAG: Fetch Code Snippet" },
+      { "command": "ragAssistant.reindex", "title": "RAG: Re-index Documents" }
+    ],
+    "keybindings": [
+      { "command": "ragAssistant.ask", "key": "ctrl+alt+r", "mac": "cmd+alt+r" }
+    ],
+    "configuration": {
+      "title": "RAG Assistant",
+      "properties": {
+        "ragAssistant.serverUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:8000",
+          "description": "URL of the local RAG server (server.py)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.4.0"
+  }
+}
