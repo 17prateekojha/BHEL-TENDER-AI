@@ -28,6 +28,8 @@ The portal uses the BHEL logo embedded in the tender document, supports document
 
 The online instance builds its vector index from `docs/`; its local index storage is temporary and can be rebuilt. The existing FastAPI API and VS Code extension remain separate from this browser portal.
 
+Scanned PDFs are OCR'd in English during indexing. Streamlit Community Cloud installs Tesseract from `packages.txt`; local Windows runs also need Tesseract OCR installed and available on `PATH`.
+
 ## Project layout
 
 ```
@@ -99,5 +101,5 @@ Commands (Ctrl+Shift+P):
 ## Limitations to be aware of
 
 - The ethics check is an AI classifier, so it is not perfect. Test it with your own list of prompts and adjust `GUARD_SYSTEM` in `rag.py`. If the check itself fails (for example a missing API key), the app refuses by default.
-- Scanned PDFs (images) need OCR, which is not included.
+- Scanned PDFs are OCR'd in English; Tesseract OCR must be installed and available on `PATH` for local indexing.
 - Document content is sent to the Anthropic API when answering. For fully offline use, swap in a local model.

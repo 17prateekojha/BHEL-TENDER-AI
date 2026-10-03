@@ -120,8 +120,30 @@ def _read_units(path: Path):
     ext = path.suffix.lower()
     if ext == ".pdf":
         from pypdf import PdfReader
-        for i, page in enumerate(PdfReader(str(path)).pages, 1):
-            yield (page.extract_text() or ""), i
+        document = None
+        try:
+            for i, page in enumerate(PdfReader(str(path)).pages, 1):
+                text = page.extract_text() or ""
+                if not text.strip():
+                    try:
+                        import fitz
+                        import pytesseract
+                        from PIL import Image
+                    except ImportError as exc:
+                        raise RuntimeError(
+                            "Scanned PDFs require PyMuPDF, Pillow, pytesseract, and Tesseract OCR."
+                        ) from exc
+                    if document is None:
+                        document = fitz.open(str(path))
+                    pixmap = document.load_page(i - 1).get_pixmap(
+                        matrix=fitz.Matrix(3, 3), alpha=False
+                    )
+                    image = Image.frombytes("RGB", (pixmap.width, pixmap.height), pixmap.samples)
+                    text = pytesseract.image_to_string(image, lang="eng")
+                yield text, i
+        finally:
+            if document is not None:
+                document.close()
     elif ext == ".docx":
         import docx
         d = docx.Document(str(path))
