@@ -23,6 +23,23 @@ st.set_page_config(
     page_icon=str(ROOT / "assets" / "bhel-logo.png"),
     layout="centered",
 )
+
+st.markdown(
+    """
+    <style>
+    div[data-testid="stLogo"] {
+        transform: scale(1.35);
+        transform-origin: left center;
+    }
+    div[data-testid="stLogo"] img {
+        width: 120px !important;
+        height: auto !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 st.logo(str(ROOT / "assets" / "bhel-logo.png"), size="large")
 
 SUGGESTIONS = [
